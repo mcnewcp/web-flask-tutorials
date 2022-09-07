@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, flash
 from flask.helpers import url_for
 import json
 import os.path
 
 app = Flask(__name__)
+app.secret_key = 'ea34i;lkjd42'
 
 @app.route('/')
 def home():
@@ -22,6 +23,7 @@ def your_url():
         
         #check if short url has been used
         if request.form['code'] in urls.keys():
+            flash('That short name has already been used.  You must select another short name.')
             return redirect(url_for('home'))
 
         #write new data
