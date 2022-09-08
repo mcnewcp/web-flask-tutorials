@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, flash, abort
+from flask import Flask, render_template, request, redirect, flash, abort, session
 from flask.helpers import url_for
 import json
 import os.path
@@ -9,7 +9,7 @@ app.secret_key = 'ea34i;lkjd42'
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('home.html', codes=session.keys())
 
 @app.route('/your-url', methods=['GET', 'POST'])
 def your_url():
@@ -39,6 +39,7 @@ def your_url():
         #write to json
         with open('urls.json', 'w') as url_file:
             json.dump(urls, url_file)
+            session[request.form['code']] = True
         
         return render_template('your_url.html', code=request.form['code'])
     else:
@@ -64,4 +65,3 @@ def redirect_to_url(code):
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('page_not_found.html'), 404
-    
