@@ -34,7 +34,7 @@ def your_url():
             f = request.files['file']
             #ensure file is safe to save
             full_name = request.form['code'] + secure_filename(f.filename)
-            f.save('C:/Users/mcnew/Documents/Projects/Github/web-flask-tutorials/url-shortener/' + full_name)
+            f.save('C:/Users/mcnew/Documents/Projects/Github/web-flask-tutorials/url-shortener/static/user_files/' + full_name)
             urls[request.form['code']] = {'file':full_name}
         #write to json
         with open('urls.json', 'w') as url_file:
@@ -54,3 +54,8 @@ def redirect_to_url(code):
                 #if its a url, redirect
                 if 'url' in urls[code].keys():
                     return redirect(urls[code]['url'])
+
+                #if its a static file, get the address
+                else:
+                    return redirect(url_for('static', filename='user_files/' + urls[code]['file']))
+                    
