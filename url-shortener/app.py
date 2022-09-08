@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, flash
+from flask import Flask, render_template, request, redirect, flash, abort
 from flask.helpers import url_for
 import json
 import os.path
@@ -58,4 +58,10 @@ def redirect_to_url(code):
                 #if its a static file, get the address
                 else:
                     return redirect(url_for('static', filename='user_files/' + urls[code]['file']))
-                    
+        
+    return abort(404)
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('page_not_found.html'), 404
+    
