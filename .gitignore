@@ -15,4 +15,4 @@ env-web-flask-tutorials
 
 urls.json
 
-static/user_files/
+**/static/user_files/
